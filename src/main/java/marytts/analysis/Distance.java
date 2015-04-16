@@ -15,7 +15,9 @@ public abstract class Distance implements DistanceInterface
     protected int dim;
     protected ArrayList<int[]> path;
     public Alignment alignment;
-    
+
+    protected Distance() {
+    }
     protected Distance(double[][] src, double[][] tgt, int dim)
     {
         this.src = src;

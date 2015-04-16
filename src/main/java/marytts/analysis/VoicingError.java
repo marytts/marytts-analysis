@@ -11,15 +11,23 @@ import java.util.ArrayList;
 public class VoicingError extends Distance
 {
     Double unvoiced_value;
+    
     public VoicingError(double[][] src, double[][] tgt, Double unvoiced_value)
     {
-        super(src, tgt, 1);
-        
         this.unvoiced_value = unvoiced_value;
         
         // Basic checking
         assert (src[0].length == 1);
         assert (tgt[0].length == 1);
+
+        //
+        this.src = src;
+        this.tgt = tgt;
+        this.dim = 1;
+        
+        // Alignment
+        alignment = new Alignment(this, src.length, tgt.length);
+        path = alignment.getPath();
     }
     
     /**
