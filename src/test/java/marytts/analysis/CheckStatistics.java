@@ -74,10 +74,19 @@ public class CheckStatistics
 
     
     @Test
+    public void checkConfintBootstrap()
+        throws Exception
+    {
+        Double sigma = s.confintBootstrap(0.05, 200);
+        System.out.println("confintboot = " + sigma);
+        assert(sigma == 5.5);
+    }
+    
+    @Test
     public void checkConfint()
     {
         Double sigma = s.confint(0.05);
-        System.out.println("variance = " + sigma);
+        System.out.println("confint = " + sigma);
         assert(sigma == 5.5);
     }
 }
