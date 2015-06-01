@@ -37,4 +37,17 @@ public class CheckDistances
         System.out.println("");
         assert(d == 2.0);
     }
+
+    @Test
+    public void checkVoicingError()
+    {
+        double[][] tgt = {{0.0}, {0.0}, {1.0}, {1.0}};
+        double[][] src = {{0.0}, {1.0}, {0.0}, {1.0}};
+
+        VoicingError v = new VoicingError(src, tgt, 0.0);
+        Double d = v.distancePerUtterance();
+
+        System.out.println("voicing error = " + d);
+        assert(d == 25.0);
+    }
 }
