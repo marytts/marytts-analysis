@@ -26,6 +26,6 @@ public class CepstralDistorsion extends RMS
         {
             dist += (src[idx_frame_src][i] - tgt[idx_frame_tgt][i]) * (src[idx_frame_src][i] - tgt[idx_frame_tgt][i]);
         }
-        return dist;
+        return 2 * dist * 10 / Math.log(10);
     }
 }

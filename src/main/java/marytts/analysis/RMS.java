@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class RMS extends Distance
-{
+{    
     public RMS(double[][] src, double[][] tgt, int dim)
     {
         super(src, tgt, dim);
@@ -26,6 +26,7 @@ public class RMS extends Distance
         {
             dist += (src[idx_frame_src][i] - tgt[idx_frame_tgt][i]) * (src[idx_frame_src][i] - tgt[idx_frame_tgt][i]);
         }
+        
         return dist;
     }
     
