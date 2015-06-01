@@ -33,21 +33,21 @@ public class CheckStatistics
     }
 
     
-    @Test
-    public void checkStdDev()
-    {
-        Double sigma = s.stddev();
-        System.out.println("sigma = " + sigma);
-        assert(sigma == 5.5);
-    }
+    // @Test
+    // public void checkStdDev()
+    // {
+    //     Double sigma = s.stddev();
+    //     System.out.println("sigma = " + sigma);
+    //     assert(sigma == 5.5);
+    // }
     
-    @Test
-    public void checkVariance()
-    {
-        Double sigma = s.variance();
-        System.out.println("variance = " + sigma);
-        assert(sigma == 5.5);
-    }
+    // @Test
+    // public void checkVariance()
+    // {
+    //     Double sigma = s.variance();
+    //     System.out.println("variance = " + sigma);
+    //     assert(sigma == 5.5);
+    // }
     
     @Test
     public void checkMedian()
@@ -82,11 +82,11 @@ public class CheckStatistics
     //     assert(sigma == 5.5);
     // }
     
-    @Test
-    public void checkConfint()
-    {
-        Double sigma = s.confint(0.05);
-        System.out.println("confint = " + sigma);
-        assert(sigma == 5.5);
-    }
+    // @Test
+    // public void checkConfint()
+    // {
+    //     Double sigma = s.confint(0.05);
+    //     System.out.println("confint = " + sigma);
+    //     assert(sigma == 5.5);
+    // }
 }
