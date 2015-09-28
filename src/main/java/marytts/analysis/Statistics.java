@@ -30,7 +30,9 @@ public class Statistics
     
     public Statistics(Double[] values)
     {
-        // Sort the array it will be easier for the remaining stuff [FIXME: check if there is no side effect]
+        assert values != null;
+        
+         // Sort the array it will be easier for the remaining stuff [FIXME: check if there is no side effect]
         this.values = values;
         Arrays.sort(this.values);
         this.mean = null;
@@ -116,6 +118,7 @@ public class Statistics
         // Fill in data objects
         for(Instance inst : instances)
             data.add(inst);
+        data.setClassIndex(0);
 
         // Configure the bootstrapper
         Resample sampler = new Resample();
@@ -167,5 +170,36 @@ public class Statistics
         } catch (MathIllegalArgumentException e) {
             return Double.NaN;
         }
+    }
+
+    /**
+     * Adapted from stackoverflow : https://stackoverflow.com/questions/10786465/how-to-generate-bins-for-histogram-using-apache-math-3-0-in-java
+     * TODO: optimize due to the fact the array is sorted
+     */
+    public Double[][] calcHistogram(int nb_bins) {
+        Double bin_size = (values[values.length - 1] - values[0])/nb_bins; // values array is sorted !
+        Double min = values[0];
+        
+        // Initialise start
+        Double[][] result = new Double[nb_bins][2];
+        Double cur_start = min;
+        for (int i=0; i<nb_bins; i++) {
+            cur_start += bin_size;
+            result[i][0] = cur_start;
+            result[i][1] = 0.0;
+        }
+
+        // Accumulate
+        for (Double d : values) {
+            int bin = (int) ((d - min) / bin_size);
+
+            
+            if (bin < 0) { /* this data is smaller than min (FIXME: throw an exception, it should never happen) */ }
+            else if (bin >= nb_bins) { /* this data point is bigger than max (FIXME: throw an exception, it should never happen) */ }
+            else {
+                result[bin][1] += 1;
+            }
+        }
+        return result;
     }
 }
