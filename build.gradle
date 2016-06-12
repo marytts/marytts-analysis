@@ -1,34 +1,69 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+plugins {
+    id 'java'
+    id 'groovy'
+    id "com.jfrog.bintray" version "1.6"
 
-version = '1.0'
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart',
-                   'Implementation-Version': version
-    }
+    id "maven-publish"
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    maven {
+        url 'https://oss.jfrog.org/artifactory/repo'
+    }
 }
+
+def maryttsVersion = '5.2-SNAPSHOT'
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.apache.commons', name:'commons-math3', version:'3.4.1'
     compile group: 'nz.ac.waikato.cms.weka', name:'weka-stable', version:'3.6.10'
     testCompile group: 'org.testng', name: 'testng', version: '6.8.13'
+    testCompile group: 'org.testng', name: 'testng', version: '6.8.13'
+    compile group: 'de.dfki.mary', name: 'marytts-runtime', version: maryttsVersion
+    testCompile group: 'de.dfki.mary', name: 'marytts-runtime', version: maryttsVersion
+
+    ['en', 'de', 'fr'].each { locale ->
+        testCompile group: 'de.dfki.mary', name: "marytts-lang-$locale", version: maryttsVersion
+    }
+    testCompile group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: maryttsVersion
 }
+
 
 test {
     useTestNG()
     systemProperties 'property': 'value'
 }
 
-uploadArchives {
-    repositories {
-       flatDir {
-           dirs 'repos'
-       }
+def cur_version = '0.1-alpha'
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId "de.dfki.mary"
+            artifactId 'marytts-analysis'
+            version cur_version
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    pkg {
+        repo = 'maven'
+        name = 'marytts-analysis'
+        licenses = ["LGPL-3.0"]
+        vcsUrl = 'https://github.com/seblemaguer/marytts-analysis'
+
+        publish = true
+        publications = ['MyPublication']
+        //Optional version descriptor
+        version {
+            name = cur_version
+            vcsTag = cur_version
+        }
     }
 }
