@@ -2,11 +2,11 @@ package marytts.analysis;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -35,7 +35,7 @@ public class CheckDistances
             System.out.print(tgt.charAt(tmp[1]) + "\t");
         }
         System.out.println("");
-        assert(d == 2.0);
+        Assert.assertEquals(d, 2.0);
     }
 
     @Test
@@ -48,6 +48,6 @@ public class CheckDistances
         Double d = v.distancePerUtterance();
 
         System.out.println("voicing error = " + d);
-        assert(d == 25.0);
+        Assert.assertEquals(d, 25.0);
     }
 }
