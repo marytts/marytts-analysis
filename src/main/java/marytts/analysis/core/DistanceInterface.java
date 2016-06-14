@@ -1,4 +1,4 @@
-package marytts.analysis;
+package marytts.analysis.core;
 
 /**
  * Basic distance interface. It assumes that the instance of a distance is specific to

@@ -1,9 +1,11 @@
-package marytts.analysis;
+package marytts.analysis.distances.string;
 
 import java.util.ArrayList;
+import marytts.analysis.core.DistanceInterface;
+import marytts.analysis.core.Alignment;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -14,14 +16,14 @@ public class Levenstein implements DistanceInterface
     String tgt;
     ArrayList<int[]> path;
     public Alignment alignment;
-    
+
     public Levenstein(String src, String tgt)
     {
         this.src = src;
         this.tgt = tgt;
         alignment = null;
     }
-    
+
     public Double distancePerFrame(int idx_frame_src, int idx_frame_tgt)
     {
         if (src.charAt(idx_frame_src) == tgt.charAt(idx_frame_tgt))
@@ -31,7 +33,7 @@ public class Levenstein implements DistanceInterface
 
         return 1.0;
     }
-    
+
     public Double distancePerUtterance()
     {
         // Alignment

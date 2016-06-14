@@ -1,9 +1,9 @@
-package marytts.analysis;
+package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -14,7 +14,7 @@ public class CepstralDistorsion extends RMS
     {
         super(src, tgt, dim);
     }
-    
+
     /**
      *
      * TODO: get into the log domain ?!

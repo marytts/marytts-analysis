@@ -1,9 +1,9 @@
-package marytts.analysis;
+package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class F0RMS extends RMS
 {
     protected double ignored_value;
-    
+
     public F0RMS(double[][] src, double[][] tgt, double ignored_value)
     {
         super(src, tgt, 1);
         this.ignored_value = ignored_value;
     }
-    
+
     /**
      *
      * TODO: get into the log domain ?!
@@ -38,7 +38,7 @@ public class F0RMS extends RMS
 
         return dist;
     }
-    
+
     public Double distancePerUtterance()
     {
         // Compute distance
@@ -55,9 +55,9 @@ public class F0RMS extends RMS
                 nb_val++;
             }
 
-         
+
         }
-        
+
         if (Double.isNaN(dist/nb_val))
         {
             throw new IllegalArgumentException("why ===> " + nb_val);

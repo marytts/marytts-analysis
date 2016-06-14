@@ -1,10 +1,12 @@
-package marytts.analysis;
+package marytts.analysis.distances;
 
 import java.util.ArrayList;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import marytts.analysis.distances.acoustic.*;
+import marytts.analysis.distances.string.*;
 /**
  *
  *

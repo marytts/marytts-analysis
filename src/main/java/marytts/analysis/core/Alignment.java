@@ -1,9 +1,9 @@
-package marytts.analysis;
+package marytts.analysis.core;
 
 import java.util.ArrayList;
 
 /**
- * DTW alignement based on a specific distance class 
+ * DTW alignement based on a specific distance class
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -14,17 +14,17 @@ public class Alignment
     private int nb_frames_tgt; /*< size of the target utterance in number of frames */
     private Double[][] dtw_matrix; /*< the matrix to store the dyn. prog results */
     private ArrayList<int[]> path; /*< the path (each item contains a couple (idx_source, idx_tgt))
-    
+
     /* ===========================================================================================
-     * ## Initialisation
-     * =========================================================================================== */
-    
+    * ## Initialisation
+    * =========================================================================================== */
+
     /**
      *  Constructor
      *
      *  @param distance : the distance classe to compute the distance between two frames
-     *  @param nb_frames_src : the number of frames of the source 
-     *  @param nb_frames_tgt : the number of frames of the target 
+     *  @param nb_frames_src : the number of frames of the source
+     *  @param nb_frames_tgt : the number of frames of the target
      */
     public Alignment(DistanceInterface distance, int nb_frames_src, int nb_frames_tgt)
     {
@@ -35,16 +35,16 @@ public class Alignment
         // Matrix initialisation
         dtw_matrix = null;
         path = null;
-            
+
     }
 
-    
+
     /* ===========================================================================================
      * ## DTW operators
      * =========================================================================================== */
 
     /**
-     *  Fill the DTW matrix 
+     *  Fill the DTW matrix
      *
      */
     public void fillMatrix()
@@ -58,7 +58,7 @@ public class Alignment
         for (int j=1; j<=nb_frames_tgt; j++)
             dtw_matrix[0][j] = dtw_matrix[0][j - 1] + distance.distancePerFrame(0, j-1);
 
-        // Filling 
+        // Filling
         for (int i=1; i<=nb_frames_src; i++)
         {
             for (int j=1; j<=nb_frames_tgt; j++)
@@ -82,7 +82,7 @@ public class Alignment
         path = new ArrayList<int[]>();
         int i = nb_frames_src;
         int j = nb_frames_tgt;
-        
+
         int[] tmp = new int[2];
         tmp[0] = i-1;
         tmp[1] = j-1;
@@ -115,12 +115,12 @@ public class Alignment
                     j = j - 1;
                 }
             }
-            
+
             tmp = new int[2];
             tmp[0] = i-1;
             tmp[1] = j-1;
             path.add(tmp);
-        }    
+        }
     }
 
 
@@ -132,7 +132,7 @@ public class Alignment
     {
         if (path == null)
             computePath();
-        
+
         return path;
     }
 
@@ -158,7 +158,7 @@ public class Alignment
             result_string += "Path is null\n";
             return result_string;
         }
-        
+
         result_string += "# ====================================\n";
         result_string += "# Matrix\n";
         result_string += "# ====================================\n";
@@ -171,7 +171,7 @@ public class Alignment
             result_string += "\n";
         }
 
-        
+
         result_string += "\n# ====================================\n";
         result_string += "# Path\n";
         result_string += "# ====================================\n";
@@ -184,5 +184,5 @@ public class Alignment
 
         return result_string;
     }
-    
+
 }

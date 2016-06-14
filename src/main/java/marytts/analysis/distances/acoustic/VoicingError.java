@@ -1,9 +1,11 @@
-package marytts.analysis;
+package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
+import marytts.analysis.core.Distance;
+import marytts.analysis.core.Alignment;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
@@ -11,11 +13,11 @@ import java.util.ArrayList;
 public class VoicingError extends Distance
 {
     Double unvoiced_value;
-    
+
     public VoicingError(double[][] src, double[][] tgt, Double unvoiced_value)
     {
         this.unvoiced_value = unvoiced_value;
-        
+
         // Basic checking
         assert (src[0].length == 1);
         assert (tgt[0].length == 1);
@@ -24,12 +26,12 @@ public class VoicingError extends Distance
         this.src = src;
         this.tgt = tgt;
         this.dim = 1;
-        
+
         // Alignment
         alignment = new Alignment(this, src.length, tgt.length);
         path = alignment.getPath();
     }
-    
+
     /**
      *
      * TODO: get into the log domain ?!
@@ -52,7 +54,7 @@ public class VoicingError extends Distance
         return 1.0;
     }
 
-    
+
     public Double distancePerUtterance()
     {
 
