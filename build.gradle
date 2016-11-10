@@ -13,7 +13,7 @@ repositories {
     }
 }
 
-def maryttsVersion = '5.2-SNAPSHOT'
+def maryttsVersion = '5.2'
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
@@ -36,7 +36,12 @@ test {
     systemProperties 'property': 'value'
 }
 
-def cur_version = '0.1-alpha'
+
+/**********************************************************************************************
+ ** Publishing part
+ **********************************************************************************************/
+
+def cur_version = '0.1'
 
 publishing {
     publications {
@@ -60,6 +65,7 @@ bintray {
 
         publish = true
         publications = ['MyPublication']
+
         //Optional version descriptor
         version {
             name = cur_version
