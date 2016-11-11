@@ -1,14 +1,16 @@
-package marytts.analysis.core;
+package marytts.analysis.distances;
 
 import java.util.ArrayList;
+import marytts.analysis.core.DistanceInterface;
+import marytts.analysis.alignment.DTW;
+import marytts.analysis.core.Alignment;
 
 /**
  *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
-
-public abstract class Distance implements DistanceInterface
+public abstract class DTWBasedDistance implements DistanceInterface
 {
     protected double[][] src;
     protected double[][] tgt;
@@ -16,18 +18,18 @@ public abstract class Distance implements DistanceInterface
     protected ArrayList<int[]> path;
     public Alignment alignment;
 
-    protected Distance()
+    protected DTWBasedDistance()
     {
     }
 
-    protected Distance(double[][] src, double[][] tgt, int dim)
+    protected DTWBasedDistance(double[][] src, double[][] tgt, int dim)
     {
         this.src = src;
         this.tgt = tgt;
         this.dim = dim;
 
         // Alignment
-        alignment = new Alignment(this, src.length, tgt.length);
+        alignment = new DTW(this, src.length, tgt.length);
         path = alignment.getPath();
     }
 

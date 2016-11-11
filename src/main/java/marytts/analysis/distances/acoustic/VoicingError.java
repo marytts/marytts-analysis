@@ -1,8 +1,9 @@
 package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
-import marytts.analysis.core.Distance;
+import marytts.analysis.distances.DTWBasedDistance;
 import marytts.analysis.core.Alignment;
+import marytts.analysis.alignment.DTW;
 
 /**
  *
@@ -10,7 +11,7 @@ import marytts.analysis.core.Alignment;
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
 
-public class VoicingError extends Distance
+public class VoicingError extends DTWBasedDistance
 {
     Double unvoiced_value;
 
@@ -27,9 +28,6 @@ public class VoicingError extends Distance
         this.tgt = tgt;
         this.dim = 1;
 
-        // Alignment
-        alignment = new Alignment(this, src.length, tgt.length);
-        path = alignment.getPath();
     }
 
     /**
@@ -57,6 +55,10 @@ public class VoicingError extends Distance
 
     public Double distancePerUtterance()
     {
+
+        // Alignment
+        alignment = new DTW(this, src.length, tgt.length);
+        path = alignment.getPath();
 
         // Compute distance
         int T = path.size();

@@ -1,15 +1,14 @@
 package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
-import marytts.analysis.core.Distance;
+import marytts.analysis.distances.DTWBasedDistance;
 
 /**
  *
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
-
-public class RMS extends Distance
+public class RMS extends DTWBasedDistance
 {
     public RMS(double[][] src, double[][] tgt, int dim)
     {

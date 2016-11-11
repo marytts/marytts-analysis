@@ -2,7 +2,7 @@ package marytts.analysis.distances.string;
 
 import java.util.ArrayList;
 import marytts.analysis.core.DistanceInterface;
-import marytts.analysis.core.Alignment;
+import marytts.analysis.alignment.DTW;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Levenstein implements DistanceInterface
     String src;
     String tgt;
     ArrayList<int[]> path;
-    public Alignment alignment;
+    public DTW alignment;
 
     public Levenstein(String src, String tgt)
     {
@@ -37,7 +37,7 @@ public class Levenstein implements DistanceInterface
     public Double distancePerUtterance()
     {
         // Alignment
-        alignment = new Alignment(this, src.length(), tgt.length());
+        alignment = new DTW(this, src.length(), tgt.length());
         path = alignment.getPath();
 
         // Compute distance
