@@ -15,7 +15,6 @@ public abstract class DTWBasedDistance implements DistanceInterface
     protected double[][] src;
     protected double[][] tgt;
     protected int dim;
-    protected ArrayList<int[]> path;
     public Alignment alignment;
 
     protected DTWBasedDistance()
@@ -30,7 +29,6 @@ public abstract class DTWBasedDistance implements DistanceInterface
 
         // Alignment
         alignment = new DTW(this, src.length, tgt.length);
-        path = alignment.getPath();
     }
 
     /**
@@ -41,6 +39,7 @@ public abstract class DTWBasedDistance implements DistanceInterface
 
     public Double distancePerUtterance()
     {
+        ArrayList<int[]> path = alignment.getPath();
         // Compute distance
         int T = path.size();
         Double dist = 0.0;

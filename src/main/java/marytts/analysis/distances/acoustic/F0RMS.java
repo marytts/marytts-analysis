@@ -1,7 +1,7 @@
 package marytts.analysis.distances.acoustic;
 
 import java.util.ArrayList;
-
+import marytts.analysis.core.Alignment;
 /**
  *
  *
@@ -42,12 +42,43 @@ public class F0RMS extends RMS
     public Double distancePerUtterance()
     {
         // Compute distance
+        ArrayList<int[]> path = alignment.getPath();
         int T = path.size();
         int nb_val = 0;
         Double dist = 0.0;
         for (int t=0; t<T; t++)
         {
             int[] tmp = path.get(t);
+            if ((src[tmp[0]][0] != ignored_value) &&
+                (tgt[tmp[1]][0] != ignored_value))
+            {
+                dist += distancePerFrame(tmp[0], tmp[1]);
+                nb_val++;
+            }
+
+
+        }
+
+        if (Double.isNaN(dist/nb_val))
+        {
+            throw new IllegalArgumentException("why ===> " + nb_val);
+        }
+
+        return Math.sqrt(dist/nb_val);
+    }
+
+
+    public Double distancePerUtterance(Alignment forced_alignment)
+    {
+        ArrayList<int[]> cur_path = forced_alignment.getPath();
+
+        // Compute distance
+        int T = cur_path.size();
+        int nb_val = 0;
+        Double dist = 0.0;
+        for (int t=0; t<T; t++)
+        {
+            int[] tmp = cur_path.get(t);
             if ((src[tmp[0]][0] != ignored_value) &&
                 (tgt[tmp[1]][0] != ignored_value))
             {

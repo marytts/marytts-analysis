@@ -28,6 +28,8 @@ public class VoicingError extends DTWBasedDistance
         this.tgt = tgt;
         this.dim = 1;
 
+        // Alignment
+        alignment = new DTW(this, src.length, tgt.length);
     }
 
     /**
@@ -55,10 +57,25 @@ public class VoicingError extends DTWBasedDistance
 
     public Double distancePerUtterance()
     {
+        ArrayList<int[]> path = alignment.getPath();
 
-        // Alignment
-        alignment = new DTW(this, src.length, tgt.length);
-        path = alignment.getPath();
+        // Compute distance
+        int T = path.size();
+        Double dist = 0.0;
+        for (int t=0; t<T; t++)
+        {
+            int[] tmp = path.get(t);
+            dist += distancePerFrame(tmp[0], tmp[1]) / T;
+        }
+        return dist * 100;
+    }
+
+
+
+    public Double distancePerUtterance(Alignment forced_alignment)
+    {
+
+        ArrayList<int[]> path = forced_alignment.getPath();
 
         // Compute distance
         int T = path.size();
