@@ -27,6 +27,7 @@ public class Statistics
     private Double mean;
     private Double stddev;
     private Double[] values;
+    private SummaryStatistics stats;
 
     public Statistics(Double[] values)
     {
@@ -35,6 +36,12 @@ public class Statistics
          // Sort the array it will be easier for the remaining stuff [FIXME: check if there is no side effect]
         this.values = values;
         Arrays.sort(this.values);
+
+        this.stats = new SummaryStatistics();
+
+        for (Double val : values) {
+            stats.addValue(val);
+        }
         this.mean = null;
         this.stddev = null;
     }
@@ -43,11 +50,7 @@ public class Statistics
         if (mean != null)
             return this.mean;
 
-        this.mean = 0.0;
-        for (int i=0; i<values.length; i++)
-        {
-            this.mean += values[i] / values.length;
-        }
+        this.mean = this.stats.getMean();
 
         return this.mean;
     }
@@ -69,16 +72,8 @@ public class Statistics
         if (stddev != null)
             return stddev;
 
-        if (this.mean == null)
-            mean();
+        this.stddev = this.stats.getStandardDeviation();
 
-        Double mean2 = 0.0;
-        for (int i=0; i<values.length; i++)
-        {
-            mean2 += values[i]*values[i] / values.length;
-        }
-
-        this.stddev = Math.sqrt(mean2 - (this.mean * this.mean));
         return this.stddev;
     }
 
@@ -149,13 +144,7 @@ public class Statistics
 
     public Double confint(Double pvalue)
     {
-        SummaryStatistics stats = new SummaryStatistics();
-
-        for (Double val : values) {
-            stats.addValue(val);
-        }
-
-        return calcMeanCI(stats, 1-pvalue);
+        return calcMeanCI(this.stats, 1-pvalue);
     }
 
     private Double calcMeanCI(SummaryStatistics stats, double level) {
