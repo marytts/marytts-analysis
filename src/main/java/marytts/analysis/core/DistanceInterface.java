@@ -7,8 +7,7 @@ package marytts.analysis.core;
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
 
-public interface DistanceInterface
-{
+public interface DistanceInterface {
     /**
      *  Distance between two specific frames. This method is used in the Alignment class
      *

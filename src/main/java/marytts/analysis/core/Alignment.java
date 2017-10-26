@@ -7,8 +7,7 @@ import java.util.ArrayList;
  *
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
-public interface Alignment
-{
+public interface Alignment {
     public void computePath();
     public ArrayList<int[]> getPath();
 }

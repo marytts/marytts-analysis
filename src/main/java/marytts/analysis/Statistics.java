@@ -22,18 +22,16 @@ import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
 
-public class Statistics
-{
+public class Statistics {
     private Double mean;
     private Double stddev;
     private Double[] values;
     private SummaryStatistics stats;
 
-    public Statistics(Double[] values)
-    {
+    public Statistics(Double[] values) {
         assert values != null;
 
-         // Sort the array it will be easier for the remaining stuff [FIXME: check if there is no side effect]
+        // Sort the array it will be easier for the remaining stuff [FIXME: check if there is no side effect]
         this.values = values;
         Arrays.sort(this.values);
 
@@ -46,9 +44,10 @@ public class Statistics
         this.stddev = null;
     }
 
-    public Double mean () {
-        if (mean != null)
+    public Double mean() {
+        if (mean != null) {
             return this.mean;
+        }
 
         this.mean = this.stats.getMean();
 
@@ -56,34 +55,35 @@ public class Statistics
     }
 
     public Double median() {
-        return values[values.length/2];
+        return values[values.length / 2];
     }
 
     public Double[] quartiles() {
         Double[] quartiles = new Double[3];
-        quartiles[0] = values[values.length/4];
-        quartiles[1] = values[values.length/2];
-        quartiles[2] = values[3*values.length/4];
+        quartiles[0] = values[values.length / 4];
+        quartiles[1] = values[values.length / 2];
+        quartiles[2] = values[3 * values.length / 4];
 
         return quartiles;
     }
 
-    public Double stddev () {
-        if (stddev != null)
+    public Double stddev() {
+        if (stddev != null) {
             return stddev;
+        }
 
         this.stddev = this.stats.getStandardDeviation();
 
         return this.stddev;
     }
 
-    public Double variance()
-    {
-        if (stddev == null)
+    public Double variance() {
+        if (stddev == null) {
             stddev();
+        }
 
-        return this.stddev*this.stddev;
-   }
+        return this.stddev * this.stddev;
+    }
 
     // public Double confintBootstrap(Double pvalue, double factor_resampling)
     //     throws Exception
@@ -142,9 +142,8 @@ public class Statistics
     // }
 
 
-    public Double confint(Double pvalue)
-    {
-        return calcMeanCI(this.stats, 1-pvalue);
+    public Double confint(Double pvalue) {
+        return calcMeanCI(this.stats, 1 - pvalue);
     }
 
     private Double calcMeanCI(SummaryStatistics stats, double level) {
@@ -167,13 +166,13 @@ public class Statistics
      * FIXME: check for the work around with bin == nb_bins
      */
     public Double[][] calcHistogram(int nb_bins) {
-        Double bin_size = (values[values.length - 1] - values[0])/nb_bins; // values array is sorted !
+        Double bin_size = (values[values.length - 1] - values[0]) / nb_bins; // values array is sorted !
         Double min = values[0];
 
         // Initialise start
         Double[][] result = new Double[nb_bins][2];
         Double cur_start = min;
-        for (int i=0; i<nb_bins; i++) {
+        for (int i = 0; i < nb_bins; i++) {
             cur_start += bin_size;
             result[i][0] = cur_start;
             result[i][1] = 0.0;
@@ -181,14 +180,17 @@ public class Statistics
 
         // Accumulate
         for (Double d : values) {
-            int bin = (int) ((d - min) / bin_size);
+            int bin = (int)((d - min) / bin_size);
 
 
-            if (bin < 0) { throw new IllegalArgumentException("not possible (idx < 0)");}
-            else if (bin > nb_bins) { throw new IllegalArgumentException("not possible (idx >= max)");}
-            else {
-                if (bin == nb_bins)
+            if (bin < 0) {
+                throw new IllegalArgumentException("not possible (idx < 0)");
+            } else if (bin > nb_bins) {
+                throw new IllegalArgumentException("not possible (idx >= max)");
+            } else {
+                if (bin == nb_bins) {
                     bin = nb_bins - 1;
+                }
                 result[bin][1] += 1;
             }
         }

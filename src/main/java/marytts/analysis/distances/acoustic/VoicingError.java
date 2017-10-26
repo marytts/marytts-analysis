@@ -11,17 +11,15 @@ import marytts.analysis.alignment.DTW;
  * @author <a href="mailto:slemaguer@coli.uni-saarland.de">Sébastien Le Maguer</a>
  */
 
-public class VoicingError extends DTWBasedDistance
-{
+public class VoicingError extends DTWBasedDistance {
     Double unvoiced_value;
 
-    public VoicingError(double[][] src, double[][] tgt, Double unvoiced_value)
-    {
+    public VoicingError(double[][] src, double[][] tgt, Double unvoiced_value) {
         this.unvoiced_value = unvoiced_value;
 
         // Basic checking
-        assert (src[0].length == 1);
-        assert (tgt[0].length == 1);
+        assert(src[0].length == 1);
+        assert(tgt[0].length == 1);
 
         //
         this.src = src;
@@ -36,18 +34,15 @@ public class VoicingError extends DTWBasedDistance
      *
      * TODO: get into the log domain ?!
      */
-    public Double distancePerFrame(int idx_frame_src, int idx_frame_tgt)
-    {
+    public Double distancePerFrame(int idx_frame_src, int idx_frame_tgt) {
         // Both voiced
         if ((src[idx_frame_src][0] != unvoiced_value) &&
-            (tgt[idx_frame_tgt][0] != unvoiced_value))
-        {
+                (tgt[idx_frame_tgt][0] != unvoiced_value)) {
             return 0.0;
         }
         // Both unvoiced
         else if ((src[idx_frame_src][0] == unvoiced_value) &&
-                 (tgt[idx_frame_tgt][0] == unvoiced_value))
-        {
+                 (tgt[idx_frame_tgt][0] == unvoiced_value)) {
             return 0.0;
         }
         // Different
@@ -55,15 +50,13 @@ public class VoicingError extends DTWBasedDistance
     }
 
 
-    public Double distancePerUtterance()
-    {
+    public Double distancePerUtterance() {
         ArrayList<int[]> path = alignment.getPath();
 
         // Compute distance
         int T = path.size();
         Double dist = 0.0;
-        for (int t=0; t<T; t++)
-        {
+        for (int t = 0; t < T; t++) {
             int[] tmp = path.get(t);
             dist += distancePerFrame(tmp[0], tmp[1]) / T;
         }
@@ -72,16 +65,14 @@ public class VoicingError extends DTWBasedDistance
 
 
 
-    public Double distancePerUtterance(Alignment forced_alignment)
-    {
+    public Double distancePerUtterance(Alignment forced_alignment) {
 
         ArrayList<int[]> path = forced_alignment.getPath();
 
         // Compute distance
         int T = path.size();
         Double dist = 0.0;
-        for (int t=0; t<T; t++)
-        {
+        for (int t = 0; t < T; t++) {
             int[] tmp = path.get(t);
             dist += distancePerFrame(tmp[0], tmp[1]) / T;
         }
