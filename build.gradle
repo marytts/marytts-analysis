@@ -4,7 +4,7 @@ plugins {
 }
 
 version '0.1-SNAPSHOT'
-group "org.m2ci.msp"
+group 'de.dfki.mary'
 description "Analysis toolbox for MaryTTS"
 
 sourceCompatibility = 1.7
@@ -83,7 +83,7 @@ publishing {
             url "$rootProject.buildDir/repo"
         }
         maven {
-            url version.endsWith('-SNAPSHOT') ? 'https://oss.jfrog.org/artifactory/oss-snapshot-local' : 'https://api.bintray.com/maven/m2ci-msp/maven/marytts-analysis'
+            url version.endsWith('-SNAPSHOT') ? 'https://oss.jfrog.org/artifactory/oss-snapshot-local' : 'https://api.bintray.com/maven/marytts/maven/marytts-analysis'
             credentials {
                 username = findProperty('bintrayUser')
                 password = findProperty('bintrayApiKey')
