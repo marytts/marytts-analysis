@@ -1,11 +1,21 @@
 plugins {
-    id 'java'
-    id "com.jfrog.bintray" version "1.6"
-    id "maven-publish"
+    id 'java-library'
+    id 'maven-publish'
+}
+
+version '0.1-SNAPSHOT'
+group "org.m2ci.msp"
+description "Analysis toolbox for MaryTTS"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    jcenter()
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
     maven {
         url 'https://oss.jfrog.org/artifactory/repo'
     }
@@ -15,7 +25,7 @@ def maryttsVersion = '5.2'
 
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    compile group: 'org.apache.commons', name:'commons-math3', version:'3.4.1'
+    compile group: 'org.apache.commons', name:'commons-math3', version:'3.6.1'
     compile group: 'nz.ac.waikato.cms.weka', name:'weka-stable', version:'3.6.10'
     testCompile group: 'org.testng', name: 'testng', version: '6.8.13'
     compile group: 'de.dfki.mary', name: 'marytts-runtime', version: maryttsVersion
@@ -35,38 +45,49 @@ test {
 
 
 /**********************************************************************************************
- ** Publishing part
+ ** Formatting part
  **********************************************************************************************/
 
-def cur_version = '0.1'
-
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            from components.java
-            groupId "de.dfki.mary"
-            artifactId 'marytts-analysis'
-            version cur_version
+task autoFormatCode {
+    def config = file("astyle.conf")
+    inputs.files config
+    outputs.upToDateWhen { false }
+    doLast {
+        fileTree(dir: '.', include: '**/*.java').each { java_file ->
+            exec {
+                commandLine "astyle", "--options=$config", java_file
+            }
         }
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    pkg {
-        repo = 'maven'
-        name = 'marytts-analysis'
-        licenses = ["LGPL-3.0"]
-        vcsUrl = 'https://github.com/seblemaguer/marytts-analysis'
+/**********************************************************************************************
+ ** Project meta + publishing part
+ **********************************************************************************************/
 
-        publish = true
-        publications = ['MyPublication']
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
 
-        //Optional version descriptor
-        version {
-            name = cur_version
-            vcsTag = cur_version
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "$rootProject.buildDir/repo"
+        }
+        maven {
+            url version.endsWith('-SNAPSHOT') ? 'https://oss.jfrog.org/artifactory/oss-snapshot-local' : 'https://api.bintray.com/maven/m2ci-msp/maven/marytts-analysis'
+            credentials {
+                username = findProperty('bintrayUser')
+                password = findProperty('bintrayApiKey')
+            }
         }
     }
 }
